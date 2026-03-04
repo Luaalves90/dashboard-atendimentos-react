@@ -1,9 +1,11 @@
 import { useState } from "react"
+import { useTema } from '../contexts/TemaContext'
 import TicketCard from "./TicketCard"
 import tickets from "../data/tickets"
 
 export default function TicketList() {
   const [statusFiltro, setStatusFiltro] = useState("Todos")
+  const { cores, temaEscuro } = useTema()
 
   const ticketsFiltrados =
     statusFiltro === "Todos"
@@ -17,12 +19,16 @@ export default function TicketList() {
           <button
             key={status}
             onClick={() => setStatusFiltro(status)}
-            className={`px-3 py-1 rounded text-sm border
-              ${
-                statusFiltro === status
-                  ? "bg-blue-600 text-white"
-                  : "bg-white hover:bg-gray-100"
-              }`}
+            className={`px-3 py-1 rounded text-sm border transition-colors duration-300`}
+            style={{
+              backgroundColor: statusFiltro === status 
+                ? '#3B82F6' // azul fixo para o ativo (não muda com tema)
+                : temaEscuro ? cores.bgCard : '#ffffff',
+              color: statusFiltro === status
+                ? '#ffffff'
+                : cores.texto,
+              borderColor: cores.borda
+            }}
           >
             {status}
           </button>
